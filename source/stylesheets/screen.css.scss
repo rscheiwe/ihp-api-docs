@@ -47,9 +47,20 @@ html, body {
   width: 20px;
 }
 
+.navbar-container .navbar {
+  position: fixed !important;
+  width: 100% !important;
+  height: 70px;
+  background: #2b71b1;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: 5000;
+}
+
 .toc-wrapper {
   transition: left 0.3s ease-in-out;
-
+  margin-top:70px;
   overflow-y: auto;
   overflow-x: hidden;
   position: fixed;
@@ -253,7 +264,7 @@ html, body {
   z-index: 10;
   background-color: $main-bg;
   min-height: 100%;
-
+  margin-top:50px;
   padding-bottom: 1px; // prevent margin overflow
 
   // The dark box is what gives the code samples their dark background.
@@ -263,7 +274,7 @@ html, body {
   // half of the content always this background color.
   .dark-box {
     width: $examples-width;
-    background-color: $examples-bg;
+    background-color: #18355C;
     position: absolute;
     right: 0;
     top: 0;
@@ -271,33 +282,52 @@ html, body {
   }
 
   .lang-selector {
+    // position: fixed;
+    // z-index: 50;
+    // border-bottom: 5px solid $lang-select-active-bg;
     position: fixed;
     z-index: 50;
-    border-bottom: 5px solid $lang-select-active-bg;
+    border-bottom: 1px solid rgba(204, 204, 204, 0.6);
+    padding: 32px 28px 14px;
   }
 }
 
 .lang-selector {
-  background-color: $lang-select-bg;
+  background-color: #f8f8f8;
   width: 100%;
   font-weight: bold;
   a {
+    // display: block;
+    // float:left;
+    // color: $lang-select-text;
+    // text-decoration: none;
+    // padding: 0 10px;
+    // line-height: 30px;
+    // outline: 0;
     display: block;
-    float:left;
-    color: $lang-select-text;
+    float: left;
+    color: #fff;
     text-decoration: none;
-    padding: 0 10px;
+    padding: 0 15px;
     line-height: 30px;
-    outline: 0;
+    border-bottom: 2px solid rgba(20, 45, 92, 0.3);
+    border-radius: 0;
+    margin-right: 5px;
+    background-color: rgba(27, 58, 82, 0.3);
+    font-weight: bold;
 
     &:active, &:focus {
-      background-color: $lang-select-pressed-bg;
-      color: $lang-select-pressed-text;
+      // background-color: $lang-select-pressed-bg;
+      // color: $lang-select-pressed-text;
+      background-color: #1b3a52;
+      color: #fff;
     }
 
     &.active {
-      background-color: $lang-select-active-bg;
-      color: $lang-select-active-text;
+      // background-color: $lang-select-active-bg;
+      // color: $lang-select-active-text;
+      background-color: #1b3a52;
+    color: #fff;
     }
   }
 
@@ -319,7 +349,7 @@ html, body {
   // to place content above the dark box
   position: relative;
   z-index: 30;
-
+  padding-top:25px;
   &:after {
     content: '';
     display: block;
@@ -512,12 +542,12 @@ html, body {
 
 .content {
   pre, blockquote {
-    background-color: $code-bg;
+    // background-color: $code-bg;
     color: #fff;
 
-    margin: 0;
-    width: $examples-width;
-
+    margin: 0 3%;
+    width: 44%;
+    border-radius:7px;
     float:right;
     clear:right;
 
@@ -543,7 +573,7 @@ html, body {
 
   blockquote {
     &>p {
-      background-color: $code-annotation-bg;
+      // background-color: #282c34;
       padding: $code-annotation-padding 2em;
       color: #eee;
     }
@@ -611,5 +641,5 @@ html, body {
 }
 
 .highlight, .highlight .w {
-  background-color: $code-bg;
+  background-color: #282c34;
 }

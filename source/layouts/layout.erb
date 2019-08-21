@@ -50,6 +50,12 @@ under the License.
         <%= image_tag('navbar.png') %>
       </span>
     </a>
+    <div class="navbar-container">
+      <nav class="navbar">
+      <a class="logo-container" href="/"><div class="logo"></div></a>
+
+      </nav>
+      </div>
     <div class="toc-wrapper">
       <%= image_tag "logo.png", class: 'logo' %>
       <% if language_tabs.any? %>
@@ -65,7 +71,7 @@ under the License.
       <% end %>
       <% if current_page.data.search %>
         <div class="search">
-          <input type="text" class="search" id="input-search" placeholder="Search">
+          <input type="text" class="search" id="input-search" placeholder="Discover">
         </div>
         <ul class="search-results"></ul>
       <% end %>
