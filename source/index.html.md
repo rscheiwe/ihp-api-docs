@@ -107,6 +107,97 @@ The result list is in ascending order by default (oldest item first) but can be 
 
 ## Error Response
 
+> <p style='font-weight:600;'>Generic error response (4xx, 5xx)</p>
+
+```json
+{
+  "errors": [
+    {
+      "id": "no_data_error",
+      "message": "No data",
+      "error_description": "Please ensure account is whitelisted" 
+    }
+  ]
+}
+
+```
+
+> <p style='font-weight:600;'>Validation failed (400)</p>
+
+```json
+{
+  "errors": [
+    {
+      "id": "validation_error",
+      "message": "Not authorized to access",
+      "error_description": "Please make sure you are authorized to access" 
+    }
+  ]
+}
+
+```
+
+> <p style='font-weight:600;'>Error with document link</p>
+
+```json
+{
+  "errors": [
+    {
+      "id": "not_whitelisted_error",
+      "message": "Account not whitelisted",
+      "error_description": "Account is not whitelisted for analysis",
+      "url":"http://<URL>.taboolasyndication.com" 
+    }
+  ]
+}
+
+```
+
+All error messages will return both machine (`id`) and human readable (`message`) error message. All errors, except `validation_error`, return only one error. Some errors will also have an optional link to the documentation (`url`).
+
+*Important*: Different error types (`id`) can be added and removed over time so you should make sure your application accepts new ones as well.
+
+Error ID <div style="width:190px">| <div style="width:90px">Code</div> | Description
+:--- | :--- | :---
+`param_required_error` | 400 | Missing parameter
+`validation_error` | 400 | Unable to validate `POST/PUT` request
+`invalid_request_error` | 400 | Invalid request
+`authentication_error` | 400 | Invalid auth (generic)
+`no_data_error` | 404 | No data, resource not found
+`not_whitelisted_error` | 404 | Specified account is not whitelisted for analysis
+`rate_limit_error` | 429 | Rate limit exceeded
+`internal_server_error` | 500 | Internal server error
+
+<aside class="notice">
+If any error persists and the cause is unclear, reach out to `<email>`.
+</aside>
+
+## Warnings
+
+> <p style='font-weight:600;'>Example warning</p>
+
+```json
+{
+  "warnings": [
+    {
+      "id": "daterange_warning",
+      "message": "Daterange is excessive",
+      "error_description": "Please limit the scope of your query to a few weeks",
+      "url":"http://<URL>.taboolasyndication.com" 
+    }
+  ]
+}
+
+```
+
+Responses can include a `warnings` parameter to notify the developer of best practices, implementation suggestions or deprecation warnings. While you don’t need show warnings to the user, they are usually something you need to act on so it’s recommended that you add them to admin email alerts.
+
+# Changelog
+
+Recent changes and additions to KOBALT API v1. Changes marked with `[VERSIONED]` include a versioned change and are only available as the default version. Version cannot be specified as a parameter. Follow [here](https://<URL>.taboolasyndication.com) for versioning updates.
+
+
+
 # Simple Calls
 
 > To authorize, use this code:
