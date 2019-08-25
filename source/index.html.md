@@ -25,7 +25,9 @@ We have language bindings in Shell, Ruby, Python, and JavaScript! You can view c
 
 This example API documentation page was created with [Slate](https://github.com/lord/slate). Feel free to edit it and use it as a base for your own API's documentation.
 
-# Interacting with the API
+<h1 style='width:100%;background-color:transparent;border-top:none;'>
+Interacting with the API
+</h1>
 
 ## Status Codes
 
@@ -65,7 +67,7 @@ As a general rule, you should only ask for scopes which your application needs a
 
 ```shell
 # With shell, you can just pass the correct header with each request
-curl -v -X POST https://kobalt001.taboolasyndication.com/v1/whitelisted \ 
+curl -v -X POST https://kobalt001.taboolasyndication.com/api/v1/whitelisted \ 
   -H 'Content-Type: application/json'
   -H 'Accept: application/json'
   -d '
@@ -77,17 +79,15 @@ curl -v -X POST https://kobalt001.taboolasyndication.com/v1/whitelisted \
 > <p style='font-weight:600;'>The above command returns JSON structured like this:</p>
 
 ```json
-[
-  {
-    "state": "success",
-    "message": "processing data for request",
-    "limit":50,
-    "data": [{
-            "data":"<DATA in request>",
-            "data_length": "<LENGTH of data request>",
-        }]
-  }
-]
+{
+  "state": "success",
+  "message": "processing data for request",
+  "limit":50,
+  "data": [{
+          "data":"<DATA in request>",
+          "data_length": "<LENGTH of data request>",
+      }]
+}
 ```
 
 `dataframe` `GET` endpoints returnn an object list which supports variable limit lengths. To get all rows associated with a `dataframe`, it is necessary to pass `limit=full` as a param. 
@@ -192,13 +192,37 @@ If any error persists and the cause is unclear, reach out to `<email>`.
 
 Responses can include a `warnings` parameter to notify the developer of best practices, implementation suggestions or deprecation warnings. While you don’t need show warnings to the user, they are usually something you need to act on so it’s recommended that you add them to admin email alerts.
 
+# Rate Limits
+
+> <p style='font-weight:600;'>Rate Limit Error (429)</p>
+
+```json
+{
+  "errors": [
+    {
+      "id": "rate_limit_error",
+      "message": "Too many requests",
+      "error_description": "Please make your request again in a few minutes",
+      "url":"http://<URL>.taboolasyndication.com" 
+    }
+  ]
+}
+
+```
+
+<aside class="warning">Rate limits are enforced to prevent over-processing of data.</aside>
+
+Globally, rate limits are enforced on UI-based endpoints. This prevents users from excessively calling endpoints for different data and/or analyses. 
+
+Currently, we set the rate limits at **5 calls per minute**. An error is displayed in the UI if the request is unable to be processed due to rate limits exceeded on the server. 
+
 # Changelog
 
 Recent changes and additions to KOBALT API v1. Changes marked with `[VERSIONED]` include a versioned change and are only available as the default version. Version cannot be specified as a parameter. Follow [here](https://<URL>.taboolasyndication.com) for versioning updates.
 
 
 
-# Simple Calls
+# OOP Configuration
 
 > To authorize, use this code:
 
@@ -238,7 +262,13 @@ Kittn expects for the API key to be included in all API requests to the server i
 You must replace <code>meowmeowmeow</code> with your personal API key.
 </aside>
 
-# Kittens
+
+<div style="height:50px;"></div>
+<h1 style='width:100%;background-color:transparent;border-top:none;'>
+Analysis Endpoints
+</h1>
+
+# Short Analysis
 
 ## Get All Kittens
 
@@ -410,3 +440,9 @@ Parameter | Description
 --------- | -----------
 ID | The ID of the kitten to delete
 
+<div style="height:50px;"></div>
+<h1 style='width:100%;background-color:transparent;border-top:none;'>
+Plotting Endpoints
+</h1>
+
+# Plot Analysis
