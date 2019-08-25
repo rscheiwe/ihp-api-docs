@@ -67,7 +67,7 @@ As a general rule, you should only ask for scopes which your application needs a
 
 ```shell
 # With shell, you can just pass the correct header with each request
-curl -v -X POST https://kobalt001.taboolasyndication.com/api/v1/whitelisted \ 
+curl -v -X POST https://kobalt001.syndication.com/api/v1/whitelisted \ 
   -H 'Content-Type: application/json'
   -H 'Accept: application/json'
   -d '
@@ -146,7 +146,7 @@ The result list is in ascending order by default (oldest item first) but can be 
       "id": "not_whitelisted_error",
       "message": "Account not whitelisted",
       "error_description": "Account is not whitelisted for analysis",
-      "url":"http://<URL>.taboolasyndication.com" 
+      "url":"http://<URL>.syndication.com" 
     }
   ]
 }
@@ -555,6 +555,8 @@ curl "https://kobalt001.taboolasyndication.com/api/v1/short-pv-reader?publisher=
                     "without_abp": "organic-thumbs-feed-01"
                 },
                 {
+                  "mode": "...",
+                  "num_placements": "...",
                   "..."
                 }
             ]
