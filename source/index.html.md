@@ -25,7 +25,7 @@ We have language bindings in Shell, Ruby, Python, and JavaScript! You can view c
 
 This example API documentation page was created with [Slate](https://github.com/lord/slate). Feel free to edit it and use it as a base for your own API's documentation.
 
-<h1 style='width:100%;background-color:transparent;border-top:none;'>
+<h1 id='interacting-with-the-api' style='width:100%;background-color:transparent;border-top:none;background-color:#18355C;color:white;'>
 Interacting with the API
 </h1>
 
@@ -264,13 +264,53 @@ You must replace <code>meowmeowmeow</code> with your personal API key.
 
 
 <div style="height:50px;"></div>
-<h1 style='width:100%;background-color:transparent;border-top:none;'>
+<h1 id='analysis-endpoints' style='width:100%;background-color:transparent;border-top:none;background-color:#18355C;color:white;'>
 Analysis Endpoints
 </h1>
 
-# Short Analysis
+<aside class="success">
+Analysis endpoints are prefixed for versioning.
+</aside>
 
-## Get All Kittens
+### API Endpoint Prefix
+
+`https://kobalt001.taboolasyndication.com/api/v1`
+
+> <p style='font-weight:600;'>Sending a request to base URL prefix:</p>
+
+```shell
+curl -v -X GET https://kobalt001.taboolasyndication.com/api/v1 \ 
+  -H 'Content-Type: application/json'
+  -H 'Accept: application/json'
+```
+
+> <p style='font-weight:600;'>The above command responds with API status:</p>
+
+```json
+{
+  "state": "success",
+  "message": "The server is active and the API is live."
+}
+```
+
+#### Example
+
+`https://kobalt001.taboolasyndication.com/api/v1/pv-search`
+
+# Short Analysis
+<aside class="notice">
+<em>Note: Endpoints for Developer Resources are found below under <a href="#developer-resources">Developer Resources</a>.</em>
+</aside>
+
+The `Short Analysis` is *not* meant to provide actionable data. It is meant to provide a preview of the more robust `Long Analysis` data for quick insight into how impactful IHP work may be on the respective account.
+
+### Use Cases:
+
+- Preliminary discovery of inactive modes;
+- Analysis of individual, by-mode PVs;
+- Quick reference for client insights.
+
+## GET Active Modes
 
 ```ruby
 require 'kittn'
@@ -287,8 +327,9 @@ api.kittens.get()
 ```
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "https://kobalt001.taboolasyndication.com/api/v1/short-pv-reader?publisher=1010748&date=2019-07-01" \ 
+  -H 'Content-Type: application/json'
+  -H 'Accept: application/json'
 ```
 
 ```javascript
@@ -298,39 +339,49 @@ let api = kittn.authorize('meowmeowmeow');
 let kittens = api.kittens.get();
 ```
 
-> The above command returns JSON structured like this:
+> The above command returns HTML structured like this:
 
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+```html
+<span>
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mode</th>
+      <th>num_views</th>
+      <th>publishers</th>
+      <th>placements</th>
+      <th>num_placements</th>
+      <th>num_publishers</th>
+      <th>without_abp</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>organic-thumbs-feed-01:abp=0</td>
+      <td>791580</td>
+      <td>[walla]</td>
+      <td>[Mobile Below Article Thumbnails]</td>
+      <td>1</td>
+      <td>1</td>
+      <td>organic-thumbs-feed-01</td>
+    </tr>
 ```
 
-This endpoint retrieves all kittens.
+This endpoint returns a baked dataframe of currently active modes based on PVs.
 
 ### HTTP Request
 
-`GET http://example.com/api/dataframe`
+`GET https://kobalt001.taboolasyndication.com/api/v1/short-pv-reader`
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+<div>`publisher` <div><em style='font-size:12px;'>_required_</em></div></div> | `null` | Numerical publisher ID for account.
+<div>`date` <div><em style='font-size:12px;'>_optional_</em></div></div> | `null` | If unspecified, the API assigns a date 90-days prior to the current day's date. Must be in `YYYY-mm-dd` format.
 
 <aside class="success">
 Remember — a happy kitten is an authenticated kitten!
@@ -353,7 +404,7 @@ api.kittens.get(2)
 ```
 
 ```shell
-curl "http://example.com/api/kittens/2"
+curl "https://kobalt001.taboolasyndication.com/api/v1/pv-reader"
   -H "Authorization: meowmeowmeow"
 ```
 
@@ -440,9 +491,89 @@ Parameter | Description
 --------- | -----------
 ID | The ID of the kitten to delete
 
+# Long Analysis
+
+The `Long Analysis` is meant to provide actionable data. It provides a more robust, definitive analysis of data into how impactful IHP work may be on the respective account. Without exceptions--which are noted if any exist--the `Long Analysis` provides conclusive findings regarding inactive vs. active modes.
+
 <div style="height:50px;"></div>
-<h1 style='width:100%;background-color:transparent;border-top:none;'>
+<h1 id='plotting-endpoints' style='width:100%;background-color:transparent;border-top:none;background-color:#18355C;color:white;'>
 Plotting Endpoints
 </h1>
 
 # Plot Analysis
+
+<div style="height:50px;"></div>
+<h1 id='developer-resources' style='width:100%;background-color:transparent;border-top:none;background-color:#18355C;color:white;'>
+Developer Resources
+</h1>
+
+The API endpoints for the Developer Resources are the most modular and extensible. 
+
+# Short Summary Request
+
+## GET Active Modes
+
+### HTTP Request
+
+`GET https://kobalt001.taboolasyndication.com/api/v1/impl-short-pv-reader`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+<div>`publisher` <div><em style='font-size:12px;'>_required_</em></div></div> | `null` | Numerical publisher ID for account.
+<div>`date` <div><em style='font-size:12px;'>_optional_</em></div></div> | `null` | If unspecified, the API assigns a date 90-days prior to the current day's date. Must be in `YYYY-mm-dd` format.
+
+# Long Summary Request
+
+## GET Initial Data Engineering
+
+```shell
+curl "https://kobalt001.taboolasyndication.com/api/v1/short-pv-reader?publisher=1010748&date=2019-07-01" \ 
+  -H 'Content-Type: application/json'
+  -H 'Accept: application/json'
+```
+
+> <p style='font-weight:600;'>The above command returns JSON structured like this:</p>
+
+```json
+{
+    "data": [
+        {
+            "json_response": [
+                {
+                    "mode": "organic-thumbs-feed-01:abp=0",
+                    "num_placements": 1,
+                    "num_publishers": 1,
+                    "num_views": 791580,
+                    "placements": [
+                        "Mobile Below Article Thumbnails"
+                    ],
+                    "publishers": [
+                        "walla"
+                    ],
+                    "without_abp": "organic-thumbs-feed-01"
+                },
+                {
+                  "..."
+                }
+            ]
+        }
+    ],
+    "message": "processed successfully",
+    "state": "success"
+}
+```
+
+### HTTP Request
+
+`Endoint: /impl-pv-reader`
+
+`GET https://kobalt001.taboolasyndication.com/api/v1/impl-pv-reader`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+<div>`publisher` <div><em style='font-size:12px;'>_required_</em></div></div> | `null` | Numerical publisher ID for account.
+<div>`date` <div><em style='font-size:12px;'>_optional_</em></div></div> | `null` | If unspecified, the API assigns a date 90-days prior to the current day's date. Must be in `YYYY-mm-dd` format.
