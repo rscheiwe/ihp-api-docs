@@ -183,7 +183,7 @@ If any error persists and the cause is unclear, reach out to `<email>`.
       "id": "daterange_warning",
       "message": "Daterange is excessive",
       "error_description": "Please limit the scope of your query to a few weeks",
-      "url":"http://<URL>.taboolasyndication.com" 
+      "url":"http://<URL>.syndication.com" 
     }
   ]
 }
@@ -203,7 +203,7 @@ Responses can include a `warnings` parameter to notify the developer of best pra
       "id": "rate_limit_error",
       "message": "Too many requests",
       "error_description": "Please make your request again in a few minutes",
-      "url":"http://<URL>.taboolasyndication.com" 
+      "url":"http://<URL>.syndication.com" 
     }
   ]
 }
@@ -218,7 +218,7 @@ Currently, we set the rate limits at **5 calls per minute**. An error is display
 
 # Changelog
 
-Recent changes and additions to KOBALT API v1. Changes marked with `[VERSIONED]` include a versioned change and are only available as the default version. Version cannot be specified as a parameter. Follow [here](https://<URL>.taboolasyndication.com) for versioning updates.
+Recent changes and additions to KOBALT API v1. Changes marked with `[VERSIONED]` include a versioned change and are only available as the default version. Version cannot be specified as a parameter. Follow [here](https://<URL>.syndication.com) for versioning updates.
 
 
 
@@ -274,12 +274,12 @@ Analysis endpoints are prefixed for versioning.
 
 ### API Endpoint Prefix
 
-`https://kobalt001.taboolasyndication.com/api/v1`
+`https://kobalt001.syndication.com/api/v1`
 
 > <p style='font-weight:600;'>Sending a request to base URL prefix:</p>
 
 ```shell
-curl -v -X GET https://kobalt001.taboolasyndication.com/api/v1 \ 
+curl -v -X GET https://kobalt001.syndication.com/api/v1 \ 
   -H 'Content-Type: application/json'
   -H 'Accept: application/json'
 ```
@@ -295,7 +295,7 @@ curl -v -X GET https://kobalt001.taboolasyndication.com/api/v1 \
 
 #### Example
 
-`https://kobalt001.taboolasyndication.com/api/v1/pv-search`
+`https://kobalt001.syndication.com/api/v1/pv-search`
 
 # Short Analysis
 <aside class="notice">
@@ -327,7 +327,7 @@ api.kittens.get()
 ```
 
 ```shell
-curl "https://kobalt001.taboolasyndication.com/api/v1/short-pv-reader?publisher=1010748&date=2019-07-01" \ 
+curl "https://kobalt001.syndication.com/api/v1/short-pv-reader?publisher=1010748&date=2019-07-01" \ 
   -H 'Content-Type: application/json'
   -H 'Accept: application/json'
 ```
@@ -374,7 +374,7 @@ This endpoint returns a baked dataframe of currently active modes based on PVs.
 
 ### HTTP Request
 
-`GET https://kobalt001.taboolasyndication.com/api/v1/short-pv-reader`
+`GET https://kobalt001.syndication.com/api/v1/short-pv-reader`
 
 ### Query Parameters
 
@@ -404,7 +404,7 @@ api.kittens.get(2)
 ```
 
 ```shell
-curl "https://kobalt001.taboolasyndication.com/api/v1/pv-reader"
+curl "https://kobalt001.syndication.com/api/v1/pv-reader"
   -H "Authorization: meowmeowmeow"
 ```
 
@@ -515,7 +515,7 @@ The API endpoints for the Developer Resources are the most modular and extensibl
 
 ### HTTP Request
 
-`GET https://kobalt001.taboolasyndication.com/api/v1/impl-short-pv-reader`
+`GET https://kobalt001.syndication.com/api/v1/impl-short-pv-reader`
 
 ### Query Parameters
 
@@ -529,7 +529,7 @@ Parameter | Default | Description
 ## GET Initial Data Engineering
 
 ```shell
-curl "https://kobalt001.taboolasyndication.com/api/v1/short-pv-reader?publisher=1010748&date=2019-07-01" \ 
+curl "https://kobalt001.syndication.com/api/v1/short-pv-reader?publisher=1010748&date=2019-07-01" \ 
   -H 'Content-Type: application/json'
   -H 'Accept: application/json'
 ```
@@ -571,7 +571,7 @@ curl "https://kobalt001.taboolasyndication.com/api/v1/short-pv-reader?publisher=
 
 `Endoint: /impl-pv-reader`
 
-`GET https://kobalt001.taboolasyndication.com/api/v1/impl-pv-reader`
+`GET https://kobalt001.syndication.com/api/v1/impl-pv-reader`
 
 ### Query Parameters
 
