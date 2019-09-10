@@ -509,9 +509,165 @@ Developer Resources
 
 The API endpoints for the Developer Resources are the most modular and extensible. 
 
+# Source Structure of Endpoints
+
+## Basic Endpoint Structure and Requirements
+
+
+```python
+@app.route('/api/v1/<ENDPOINT>', methods=['GET'])
+@limiter.limit("1000 per hour")
+def impl_pv_reader():
+
+    if not request or request.args.get('publisher') is None:
+        abort(400, description='Publisher required')
+
+    param = request.args.get('publisher', type=int)
+    date_object=None
+    base_date_object = datetime.date.today() - datetime.timedelta(3*30)
+
+    if request and request.args.get('date') is None:
+        date_object = str(base_date_object)
+    else:
+        date_object = request.args.get('date')
+        # Condition to prevent searches > 3 months prior
+        if pd.to_datetime(date_object) < pd.to_datetime(base_date_object):
+            date_object = str(base_date_object)
+
+    # Main logic 
+    try:
+        connection = vertica_connector()
+
+        if connection:
+            cursor = connection.cursor()
+            query = pv_vertica_search(param, date_object)
+            cursor.execute(query)
+            json_data=data_json_formatter(cursor)
+            df = pd.DataFrame(data=json_data)
+            db_connection_sever(cursor, connection)
+            # -*- -*- Data Cleaning / Engineering -*- -*-
+            df = data_engineer(df)
+            #  -*- -*- -*- -*- -*- -*- -*- -*- -*-
+            response_object = {
+                'state':'success',
+                'message':'processed successfully',
+                'data':[{
+                    'json_response':df.head(25).to_dict(orient='records')
+                    }]
+            }
+            return response_object
+    except:
+        abort(404, description='No data or resources not found')`
+```
+<aside class="success">
+Click <code>python</code> to see the API endpoint definition.
+</aside>
+### HTTP Request
+
+`GET https://kobalt001.syndication.com/api/v1/<ENDPOINT>`
+
+### Availble Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+<div>`publisher` <div><em style='font-size:12px;'>_required_</em></div></div> | `null` | Numerical publisher ID for account.
+<div>`date` <div><em style='font-size:12px;'>_optional_</em></div></div> | `null` | If unspecified, the API assigns a date 90-days prior to the current day's date. Must be in `YYYY-mm-dd` format.
+
+# Baked Modes Request
+
+## GET Loader-baked Modes
+
+```shell
+curl "https://kobalt001.syndication.com/api/v1/impl-list-modes?publisher=nbcnews" \ 
+  -H 'Content-Type: application/json'
+  -H 'Accept: application/json'
+```
+
+> <p style='font-weight:600;'>The above command returns JSON structured like this:</p>
+
+```json
+{
+    "data": [
+        {
+            "json_response": [
+                {
+                    "mode_date": "Thu, 25 Oct 2018 13:17:47 GMT",
+                    "mode_id": 370681,
+                    "mode_name": "thumbs-feed-text-links-4-links"
+                },
+                {
+                    "mode_date": "Wed, 17 Oct 2018 09:11:52 GMT",
+                    "mode_id": 367886,
+                    "mode_name": "thumbs-feed-stream-half-size"
+                },
+                {
+                    "mode_date": "Sun, 14 Oct 2018 08:41:43 GMT",
+                    "mode_id": 364683,
+                    "mode_name": "thumbs-feed-hero-bottom"
+                },
+                {
+                    "..."
+                },
+            ]
+        }
+    ],
+    "message": "processed successfully",
+    "state": "success"
+}
+```
+
+### HTTP Request
+
+`GET https://kobalt001.syndication.com/api/v1/impl-list-modes`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+<div>`publisher` <div><em style='font-size:12px;'>_required_</em></div></div> | `null` | Descriptive publisher ID for account.
+
 # Short Summary Request
 
 ## GET Active Modes
+
+```shell
+curl "https://kobalt001.syndication.com/api/v1/impl-short-pv-reader?publisher=1010748" \ 
+  -H 'Content-Type: application/json'
+  -H 'Accept: application/json'
+```
+
+> <p style='font-weight:600;'>The above command returns JSON structured like this:</p>
+
+```json
+{
+    "data": [
+        {
+            "json_response": [
+                {
+                    "mode": "thumbnails-feed-mobile",
+                    "num_views": 472295922,
+                    "publisher_id": 1010748
+                },
+                {
+                    "mode": "thumbnails-feed-mobile-amp",
+                    "num_views": 342570899,
+                    "publisher_id": 1010748
+                },
+                {
+                    "mode": "organic-thumbnails-feed-mobile",
+                    "num_views": 296182519,
+                    "publisher_id": 1010748
+                },
+                {
+                    "..."
+                },
+            ]
+        }
+    ],
+    "message": "processed successfully",
+    "state": "success"
+}
+```
 
 ### HTTP Request
 
@@ -529,7 +685,7 @@ Parameter | Default | Description
 ## GET Initial Data Engineering
 
 ```shell
-curl "https://kobalt001.syndication.com/api/v1/short-pv-reader?publisher=1010748&date=2019-07-01" \ 
+curl "https://kobalt001.syndication.com/api/v1/impl-pv-reader?publisher=1010748&date=2019-07-01" \ 
   -H 'Content-Type: application/json'
   -H 'Accept: application/json'
 ```
