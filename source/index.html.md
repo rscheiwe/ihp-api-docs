@@ -544,7 +544,7 @@ def impl_pv_reader():
             cursor.execute(query)
             json_data=data_json_formatter(cursor)
             df = pd.DataFrame(data=json_data)
-            db_connection_sever(cursor, connection)
+            vertica_connection_sever(cursor, connection)
             # -*- -*- Data Cleaning / Engineering -*- -*-
             df = data_engineer(df)
             #  -*- -*- -*- -*- -*- -*- -*- -*- -*-
@@ -572,6 +572,19 @@ Parameter | Default | Description
 --------- | ------- | -----------
 <div>`publisher` <div><em style='font-size:12px;'>_required_</em></div></div> | `null` | Numerical publisher ID for account.
 <div>`date` <div><em style='font-size:12px;'>_optional_</em></div></div> | `null` | If unspecified, the API assigns a date 90-days prior to the current day's date. Must be in `YYYY-mm-dd` format.
+
+### Notable Elements
+
+Element | Description
+--------- | ------- | -----------
+<div>`@limiter.limit("1000 per hour")` <div><em style='font-size:12px;'>_required_</em></div></div> | Rate-limit definition for endpoint.
+<div>`date_object` logic <div><em style='font-size:12px;'>_optional_</em></div></div> | If unspecified, the API assigns a date 90-days prior to the current day's date. Must be in `YYYY-mm-dd` format.
+<div>`connection` <div><em style='font-size:12px;'>_required_</em></div></div> | Function to enable database connection. May be either `vertica_connector()` or `db_connector`() for `backend-db`.
+<div>`cursor`, `query` <div><em style='font-size:12px;'>_required_</em></div></div> | `cursor` is the package `connection` object to `execute` MySQL `query`, which is defined as a function in `util-sql.py`.
+<div>`json_data_formatter(cursor_obj)` <div><em style='font-size:12px;'>_required_</em></div></div> | Custom function to format results from `cursor.execute(query)`.
+<div>`df` <div><em style='font-size:12px;'>_required_</em></div></div> | Pandas dataframe object for data engineering.
+<div>`vertica_connection_sever(cursor, connection)` <div><em style='font-size:12px;'>_required_</em></div></div> | Required function to sever connection to database.
+<div>`data_engineer(dataframe)` <div><em style='font-size:12px;'>_optional_</em></div></div> | Suite of chained functions to clean the data(frame) for rendering.
 
 # Baked Modes Request
 
